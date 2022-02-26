@@ -20,6 +20,7 @@ class ExpenseStore: ObservableObject {
 
 struct ContentView: View {
     @StateObject var expenseStore: ExpenseStore = ExpenseStore()
+    @State private var showingAddView = false
     
     var body: some View {
         NavigationView {
@@ -32,12 +33,14 @@ struct ContentView: View {
             .navigationTitle("iExpense")
             .toolbar {
                 Button {
-                    let newItem = ExpenseItem(amount: 34.4, name: "Farmacia", type: "health")
-                    expenseStore.expenseItems.append(newItem)
+                    showingAddView = true
                 } label: {
                     Image(systemName: "plus")
                 }
             }
+        }
+        .sheet(isPresented: $showingAddView) {
+            AddView(expenseStore: expenseStore)
         }
     }
     
