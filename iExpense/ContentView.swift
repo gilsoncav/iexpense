@@ -7,58 +7,36 @@
 
 import SwiftUI
 
-class User: ObservableObject {
-    @Published var firstName: String = "Bilbo"
-    @Published var lastName: String = "Baggins"
+struct ExpenseItem {
+    var amount: Double
+    var name: String
+    var type: String
 }
 
-struct GilsonView: View {
-    @State var name: String
-    @Environment(\.dismiss) var coelhinho
-    
-    var body: some View {
-        Text("Hello \(name)!")
-        Button("Dismiss!") {
-            coelhinho()
-        }
-    }
+class ExpenseStore: ObservableObject {
+    @Published var expenseItems = [ExpenseItem]()
 }
 
 struct ContentView: View {
-    @StateObject var user: User = User()
-    @State private var isShowingGilsonView = false
-    @State private var numbers = [Int]()
-    @State private var currentNumber = 1
+    @StateObject var expenseStore: ExpenseStore = ExpenseStore()
     
     var body: some View {
-        VStack {
+        NavigationView {
             List {
-                ForEach($numbers, id: \.self) { $num in
-                    Text("\(num)")
+                ForEach(expenseStore.expenseItems, id: \.name) { item in
+                    Text(item.name)
                 }
-                .onDelete(perform: deleteNumber)
             }
-            Text("Hello \(user.firstName) \(user.lastName)! ")
-            TextField("First Name", text: $user.firstName)
-            TextField("Last Name", text: $user.lastName)
-            
-            HStack {
-                Button("Show new View") {
-                    isShowingGilsonView.toggle()
-                }
-                Button("Add Item") {
-                    numbers.append(currentNumber)
-                    currentNumber += 1
+            .navigationTitle("iExpense")
+            .toolbar {
+                Button {
+                    let newItem = ExpenseItem(amount: 34.4, name: "Farmacia", type: "health")
+                    expenseStore.expenseItems.append(newItem)
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
         }
-        .sheet(isPresented: $isShowingGilsonView) {
-            GilsonView(name: user.firstName)
-        }
-    }
-    
-    func deleteNumber(at indexSet: IndexSet) {
-        numbers.remove(atOffsets: indexSet)
     }
 }
 
