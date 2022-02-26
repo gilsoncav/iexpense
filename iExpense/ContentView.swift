@@ -26,6 +26,7 @@ struct ContentView: View {
                 ForEach(expenseStore.expenseItems, id: \.name) { item in
                     Text(item.name)
                 }
+                .onDelete(perform: deleteExpenseItem)
             }
             .navigationTitle("iExpense")
             .toolbar {
@@ -37,6 +38,10 @@ struct ContentView: View {
                 }
             }
         }
+    }
+    
+    func deleteExpenseItem(at indexSet: IndexSet) {
+        expenseStore.expenseItems.remove(atOffsets: indexSet)
     }
 }
 
