@@ -27,20 +27,38 @@ struct GilsonView: View {
 struct ContentView: View {
     @StateObject var user: User = User()
     @State private var isShowingGilsonView = false
+    @State private var numbers = [Int]()
+    @State private var currentNumber = 1
     
     var body: some View {
         VStack {
+            List {
+                ForEach($numbers, id: \.self) { $num in
+                    Text("\(num)")
+                }
+                .onDelete(perform: deleteNumber)
+            }
             Text("Hello \(user.firstName) \(user.lastName)! ")
             TextField("First Name", text: $user.firstName)
             TextField("Last Name", text: $user.lastName)
             
-            Button("Show new View") {
-                isShowingGilsonView.toggle()
+            HStack {
+                Button("Show new View") {
+                    isShowingGilsonView.toggle()
+                }
+                Button("Add Item") {
+                    numbers.append(currentNumber)
+                    currentNumber += 1
+                }
             }
         }
         .sheet(isPresented: $isShowingGilsonView) {
             GilsonView(name: user.firstName)
         }
+    }
+    
+    func deleteNumber(at indexSet: IndexSet) {
+        numbers.remove(atOffsets: indexSet)
     }
 }
 
