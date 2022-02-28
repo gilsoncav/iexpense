@@ -37,7 +37,6 @@
 		4D6B951927C97DDC00FDE0B6 = {
 			isa = PBXGroup;
 			children = (
-				4D6B953327CAD05A00FDE0B6 /* AddView.swift */,
 				4D6B952427C97DDC00FDE0B6 /* iExpense */,
 				4D6B952327C97DDC00FDE0B6 /* Products */,
 			);
@@ -54,6 +53,7 @@
 		4D6B952427C97DDC00FDE0B6 /* iExpense */ = {
 			isa = PBXGroup;
 			children = (
+				4D6B953327CAD05A00FDE0B6 /* AddView.swift */,
 				4D6B952527C97DDC00FDE0B6 /* iExpenseApp.swift */,
 				4D6B952727C97DDC00FDE0B6 /* ContentView.swift */,
 				4D6B952927C97DDD00FDE0B6 /* Assets.xcassets */,
